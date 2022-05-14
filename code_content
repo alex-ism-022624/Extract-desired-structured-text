@@ -1,34 +1,20 @@
 %%capture
 !pip install -q unidecode xlsxwriter
 !pip install gspread --upgrade
+
 # Basic ETL
 import pandas as pd
 pd.set_option("display.max_rows", 100000,"display.max_columns", 100)
 import numpy as np
 import gspread
 import re
-import time
-import datetime
-from datetime import timedelta, date
 from unidecode import unidecode
 import requests
 import time
 import json
-import glob
-from tenacity import *
-import glob
-import os
-import math 
-# DB tools
-from sqlalchemy import create_engine
-from sqlalchemy.sql import text
-from sqlalchemy.sql import func
+
 path = r'../content/drive/MyDrive/2022 Projects/VN Finance SKU Split Tool'
-engine = create_engine(
-    f"sqlite:///{path}/db2.db"
-)
-_metabase = requests.get('https://pastebin.com/raw/brwqDvy0').text
-metabase_header = {'content-type': 'application/x-www-form-urlencoded', 'x-metabase-session': _metabase}
+engine = create_engine(f"sqlite:///{path}/db2.db")
 
 
 from google.colab import drive
@@ -46,9 +32,6 @@ input['No.item'] = input['instruction'].apply(lambda x: re.findall(re.compile(r'
 input['No.item_2'] = input['No.item'].apply(lambda x: sum([int(_i) for _i in x]))
 
 input = input[['tracking_id','instruction','SKU_2','No.item_2']].reset_index (drop=True)
-
-
-
 
 
 output_sheet = gc.open_by_key('13baPim6ZNPKyuVjPmv1wY1Ath0R_FYmUa2r1OYllAxU')
